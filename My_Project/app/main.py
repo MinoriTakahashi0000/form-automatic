@@ -138,7 +138,8 @@ def write_to_google_doc():
         doc = service.documents().create(body=body).execute()
         document_id = doc.get("documentId")
         document_url = f'https://docs.google.com/document/d/{document_id}/edit'
-        print("document_url:" + document_url)    
+        print("document_url:" + document_url) 
+        session['document_url'] = document_url      
 
         doc = service.documents().get(documentId=document_id).execute()
 
@@ -335,6 +336,7 @@ def write_to_google_doc():
 
 @app.route("/end", methods=["GET"])
 def end():
+          document_url = session.get('document_url', 'URLが見つかりません')
     return render_template("end.html",document_url=document_url)
 
 

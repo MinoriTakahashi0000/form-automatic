@@ -3,8 +3,6 @@ import re
 import os
 from urllib.parse import unquote_plus
 import datetime
-import webbrowser
-import ast
 import json
 import os.path
 from google.oauth2 import service_account  # type: ignore
@@ -13,16 +11,20 @@ from googleapiclient.errors import HttpError
 
 
 # 必要なスコープ
-SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 
-          'https://www.googleapis.com/auth/documents',
-          'https://www.googleapis.com/auth/drive']
+SCOPES = [
+    "https://www.googleapis.com/auth/spreadsheets",
+    "https://www.googleapis.com/auth/documents",
+    "https://www.googleapis.com/auth/drive",
+]
 
 # 環境変数からキーファイルの内容を読み込む
-key_file_contents = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+key_file_contents = os.environ.get("GOOGLE_APPLICATION_CREDENTIALS")
 credentials_info = json.loads(key_file_contents)
 
 # 読み込んだ情報から認証情報を生成
-credentials = service_account.Credentials.from_service_account_info(credentials_info, scopes=SCOPES)
+credentials = service_account.Credentials.from_service_account_info(
+    credentials_info, scopes=SCOPES
+)
 
 app = Flask(__name__, static_folder=".", static_url_path="")
 app.secret_key = "hogehoge"
@@ -137,9 +139,9 @@ def write_to_google_doc():
         body = {"title": title}
         doc = service.documents().create(body=body).execute()
         document_id = doc.get("documentId")
-        document_url = f'https://docs.google.com/document/d/{document_id}/edit'
-        print("document_url:" + document_url) 
-        session['document_url'] = document_url      
+        document_url = f"https://docs.google.com/document/d/{document_id}/edit"
+        print("document_url:" + document_url)
+        session["document_url"] = document_url
 
         doc = service.documents().get(documentId=document_id).execute()
 
@@ -314,21 +316,19 @@ def write_to_google_doc():
             documentId=document_id, body={"requests": requests}
         ).execute()
 
-        service = build('drive', 'v3', credentials=credentials)
+        service = build("drive", "v3", credentials=credentials)
         # 全ユーザーに編集権限を付与するためのアクセス権設定
         drive_permission = {
-                  'type': 'anyone',  # どのユーザーでもアクセス可能
-                  'role': 'writer',  # 編集権限
+            "type": "anyone",  # どのユーザーでもアクセス可能
+            "role": "writer",  # 編集権限
         }
 
         # ドキュメントにアクセス権を設定
         service.permissions().create(
-                  fileId=document_id,
-                  body=drive_permission,
-                  fields='id'
-        ).execute()  
-        print('ドキュメントは全ユーザーに編集権限で共有されました。')
-              
+            fileId=document_id, body=drive_permission, fields="id"
+        ).execute()
+        print("ドキュメントは全ユーザーに編集権限で共有されました。")
+
         return redirect(url_for("end"))
     except HttpError as err:
         print(err)
@@ -336,8 +336,8 @@ def write_to_google_doc():
 
 @app.route("/end", methods=["GET"])
 def end():
-          document_url = session.get('document_url', 'URLが見つかりません')
-    return render_template("end.html",document_url=document_url)
+    document_url = session.get("document_url", "URLが見つかりません")
+    return render_template("end.html", document_url=document_url)
 
 
 if __name__ == "__main__":

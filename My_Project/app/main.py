@@ -328,7 +328,6 @@ def write_to_google_doc():
         ).execute()  
         print('ドキュメントは全ユーザーに編集権限で共有されました。')
               
-        webbrowser.open(url)
         return redirect(url_for("end"))
     except HttpError as err:
         print(err)
@@ -336,7 +335,7 @@ def write_to_google_doc():
 
 @app.route("/end", methods=["GET"])
 def end():
-    return render_template("end.html")
+    return render_template("end.html",document_url=document_url)
 
 
 if __name__ == "__main__":

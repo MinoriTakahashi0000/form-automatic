@@ -13,14 +13,16 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
-SCOPES_SHEETS = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
-SCOPES_DOCS = ["https://www.googleapis.com/auth/documents"]
-credentials_docs_path = (
-    "My_Project/credentials/credentials_docs.json"
-)
-credentials_sheets_path = (
-    "My_Project/credentials/credentials_sheets.json"
-)
+# 必要なスコープ
+SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 
+          'https://www.googleapis.com/auth/documents']
+
+# 環境変数からキーファイルのパスを取得
+SERVICE_ACCOUNT_FILE = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+
+# サービスアカウントを使用した認証
+credentials = service_account.Credentials.from_service_account_file(
+    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
 
 app = Flask(__name__, static_folder=".", static_url_path="")
 app.secret_key = "hogehoge"
@@ -41,27 +43,8 @@ def get_sheets_data(id, SCOPES_SHEETS):
     SHEET_ID = id
     SHEET_NAME = "フォームの回答 1"
 
-    creds_sheets = None
-
-    if os.path.exists("token_sheets.json"):
-        creds_sheets = Credentials.from_authorized_user_file(
-            "token_sheets.json", SCOPES_SHEETS
-        )
-
-    if not creds_sheets or not creds_sheets.valid:
-        if creds_sheets and creds_sheets.expired and creds_sheets.refresh_token:
-            creds_sheets.refresh(Request())
-        else:
-            flow_sheets = InstalledAppFlow.from_client_secrets_file(
-                credentials_sheets_path, SCOPES_SHEETS
-            )
-            creds_sheets = flow_sheets.run_local_server(port=0)
-
-        with open("token_sheets.json", "w") as token_sheets:
-            token_sheets.write(creds_sheets.to_json())
-
     try:
-        service_sheets = build("sheets", "v4", credentials=creds_sheets)
+        service_sheets = build("sheets", "v4", credentials=credentials)
 
         spreadsheet = (
             service_sheets.spreadsheets().get(spreadsheetId=SHEET_ID).execute()
@@ -148,27 +131,9 @@ def write_to_google_doc():
 
     selected_list = [new_list[i] for i in range(len(new_list)) if selected_keys[i]]
     selected_list = [[item for item in row if item != ""] for row in selected_list]
-    creds_docs = None
-
-    if os.path.exists("token_docs.json"):
-        creds_docs = Credentials.from_authorized_user_file(
-            "token_docs.json", SCOPES_DOCS
-        )
-
-    if not creds_docs or not creds_docs.valid:
-        if creds_docs and creds_docs.expired and creds_docs.refresh_token:
-            creds_docs.refresh(Request())
-        else:
-            flow_docs = InstalledAppFlow.from_client_secrets_file(
-                credentials_docs_path, SCOPES_DOCS
-            )
-            creds_docs = flow_docs.run_local_server(port=0)
-
-        with open("token_docs.json", "w") as token_docs:
-            token_docs.write(creds_docs.to_json())
 
     try:
-        service = build("docs", "v1", credentials=creds_docs)
+        service = build("docs", "v1", credentials=credentials)
         body = {"title": title}
         doc = service.documents().create(body=body).execute()
         document_id = doc.get("documentId")

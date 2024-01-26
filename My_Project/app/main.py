@@ -143,8 +143,6 @@ def write_to_google_doc():
         print("document_url:" + document_url)
         session["document_url"] = document_url
 
-        doc = service.documents().get(documentId=document_id).execute()
-
         requests = []
 
         # ドキュメントを逆順に構築
@@ -311,7 +309,6 @@ def write_to_google_doc():
             ]
         )
 
-        url = "https://docs.google.com/document/d/" + document_id
         service.documents().batchUpdate(
             documentId=document_id, body={"requests": requests}
         ).execute()

@@ -14,12 +14,12 @@ import googleapiclient.discovery  # type: ignore
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 
           'https://www.googleapis.com/auth/documents']
 
-# 環境変数からキーファイルのパスを取得
-SERVICE_ACCOUNT_FILE = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+# 環境変数からキーファイルの内容を読み込む
+key_file_contents = os.environ.get('GOOGLE_APPLICATION_CREDENTIALS')
+credentials_info = json.loads(key_file_contents)
 
-# サービスアカウントを使用した認証
-credentials = service_account.Credentials.from_service_account_file(
-    SERVICE_ACCOUNT_FILE, scopes=SCOPES)
+# 読み込んだ情報から認証情報を生成
+credentials = service_account.Credentials.from_service_account_info(credentials_info, scopes=SCOPES)
 
 app = Flask(__name__, static_folder=".", static_url_path="")
 app.secret_key = "hogehoge"

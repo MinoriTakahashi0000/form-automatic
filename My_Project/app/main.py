@@ -22,7 +22,7 @@ credentials_sheets_path = (
     "/Users/minoritakahashi/Desktop/My_Project/credentials/credentials_sheets.json"
 )
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder=".", static_url_path="")
 app.secret_key = "hogehoge"
 
 

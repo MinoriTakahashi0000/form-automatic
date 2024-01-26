@@ -136,6 +136,7 @@ def write_to_google_doc():
         body = {"title": title}
         doc = service.documents().create(body=body).execute()
         document_id = doc.get("documentId")
+        consol.log(document_id)      
 
         doc = service.documents().get(documentId=document_id).execute()
 

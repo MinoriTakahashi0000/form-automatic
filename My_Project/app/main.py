@@ -35,7 +35,7 @@ def extract_id(url):
         return None
 
 
-def get_sheets_data(id, SCOPES_SHEETS):
+def get_sheets_data(id):
     # 対象となるスプレッドシートのIDと読み取り範囲
     SHEET_ID = id
     SHEET_NAME = "フォームの回答 1"
@@ -73,7 +73,7 @@ def index():
 def process():
     url = request.form["url_input"]
     id = extract_id(url)
-    sheets_data, sheets_title = get_sheets_data(id, SCOPES_SHEETS)
+    sheets_data, sheets_title = get_sheets_data(id)
     # 質問取り出す
     keys = sheets_data[0]
 

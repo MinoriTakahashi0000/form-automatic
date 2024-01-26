@@ -16,10 +16,10 @@ from googleapiclient.errors import HttpError
 SCOPES_SHEETS = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
 SCOPES_DOCS = ["https://www.googleapis.com/auth/documents"]
 credentials_docs_path = (
-    "/Users/minoritakahashi/Desktop/My_Project/credentials/credentials_docs.json"
+    "My_Project/credentials/credentials_docs.json"
 )
 credentials_sheets_path = (
-    "/Users/minoritakahashi/Desktop/My_Project/credentials/credentials_sheets.json"
+    "My_Project/credentials/credentials_sheets.json"
 )
 
 app = Flask(__name__, static_folder=".", static_url_path="")

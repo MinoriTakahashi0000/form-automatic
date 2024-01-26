@@ -140,21 +140,6 @@ def write_to_google_doc():
         document_url = f'https://docs.google.com/document/d/{document_id}/edit'
         print("document_url:" + document_url)    
 
-        service = build('drive', 'v3', credentials=credentials)
-        # 全ユーザーに編集権限を付与するためのアクセス権設定
-        drive_permission = {
-                  'type': 'anyone',  # どのユーザーでもアクセス可能
-                  'role': 'writer',  # 編集権限
-        }
-
-        # ドキュメントにアクセス権を設定
-        service.permissions().create(
-                  fileId=document_id,
-                  body=drive_permission,
-                  fields='id'
-        ).execute()  
-        print('ドキュメントは全ユーザーに編集権限で共有されました。')
-
         doc = service.documents().get(documentId=document_id).execute()
 
         requests = []
@@ -327,6 +312,22 @@ def write_to_google_doc():
         service.documents().batchUpdate(
             documentId=document_id, body={"requests": requests}
         ).execute()
+
+        service = build('drive', 'v3', credentials=credentials)
+        # 全ユーザーに編集権限を付与するためのアクセス権設定
+        drive_permission = {
+                  'type': 'anyone',  # どのユーザーでもアクセス可能
+                  'role': 'writer',  # 編集権限
+        }
+
+        # ドキュメントにアクセス権を設定
+        service.permissions().create(
+                  fileId=document_id,
+                  body=drive_permission,
+                  fields='id'
+        ).execute()  
+        print('ドキュメントは全ユーザーに編集権限で共有されました。')
+              
         webbrowser.open(url)
         return redirect(url_for("end"))
     except HttpError as err:

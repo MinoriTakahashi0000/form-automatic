@@ -7,11 +7,8 @@ import webbrowser
 import ast
 import json
 import os.path
-from google.auth.transport.requests import Request
-from google.oauth2.credentials import Credentials
-from google_auth_oauthlib.flow import InstalledAppFlow
-from googleapiclient.discovery import build
-from googleapiclient.errors import HttpError
+from google.oauth2 import service_account  # type: ignore
+import googleapiclient.discovery  # type: ignore
 
 # 必要なスコープ
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 

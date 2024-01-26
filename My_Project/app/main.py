@@ -8,7 +8,9 @@ import ast
 import json
 import os.path
 from google.oauth2 import service_account  # type: ignore
-import googleapiclient.discovery  # type: ignore
+from googleapiclient.discovery import build
+from googleapiclient.errors import HttpError
+
 
 # 必要なスコープ
 SCOPES = ['https://www.googleapis.com/auth/spreadsheets', 

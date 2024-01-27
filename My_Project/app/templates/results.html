@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <div id="loading" style="display: none;">Loading...</div>
     <script>
         sheets_data = {{ sheets_data | tojson }};
     </script>
@@ -48,6 +49,7 @@
     <button id="create" onclick="create()">作成</button>
     <script>
         function create() {
+            document.getElementById("loading").style.display = "block";
             var titleValue = document.getElementById('title_input').value;
 
             // チェックボックスの状態を取得

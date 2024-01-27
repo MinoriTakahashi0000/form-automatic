@@ -83,19 +83,21 @@ def process():
     keys = sheets_data[0]
     # シートデータ取り出す
     session["sheets_data"] = sheets_data
+    session["sheets_title"] = sheets_title
+    session["keys"] = keys
 
     return redirect(
-        url_for("results", title=sheets_title, sheets_data=sheets_data, keys=keys)
+        url_for("results")
     )
 
 
 @app.route("/results")
 def results():
-    title = request.args.get("title")
-    keys = request.args.getlist("keys")
+    sheets_title = session.get("title", "URLが見つかりません")
+    keys = session.get("keys", "URLが見つかりません")
     
     return render_template(
-        "results.html", title=title, keys=keys
+        "results.html", sheets_title=sheets_title, keys=keys
     )
 
 

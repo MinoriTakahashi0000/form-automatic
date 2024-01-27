@@ -12,10 +12,7 @@
     <div id="loading">
     <div id="loadingMessage">アンケートまとめを作成中...</div>
     </div>
-    <script>
-        sheets_data = {{ sheets_data | tojson }};
-    </script>
-
+    
     <h1>アンケート自動まとめ</h1>
     <div>
         <h3>アンケートまとめのタイトルを入力してください</h3>
@@ -64,7 +61,6 @@
 
             // タイトルと選択されたキーのリストをまとめてサーバーに送信
             var requestData = {
-                sheets_data: sheets_data,
                 title: titleValue,
                 selectedKeys: selectedKeys
             };

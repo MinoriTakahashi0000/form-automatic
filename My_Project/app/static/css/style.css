@@ -1,4 +1,4 @@
-#loading {
+.loading {
     position: fixed; /* ページ全体に対して中央に配置 */
     top: 50%;
     left: 50%;

@@ -85,6 +85,8 @@ def process():
     # 質問取り出す
     keys = sheets_data[0]
     # シートデータ取り出す
+    print("::",sheets_data)
+    print("::",sheets_title)
     session["sheets_data"] = sheets_data
     session["sheets_title"] = sheets_title
     session["keys"] = keys

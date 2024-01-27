@@ -73,7 +73,6 @@ def get_sheets_data(id):
 
 @app.route("/")
 def index():
-    session.clear()
     return render_template("index.html")
 
 

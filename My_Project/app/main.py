@@ -81,6 +81,8 @@ def process():
     sheets_data, sheets_title = get_sheets_data(id)
     # 質問取り出す
     keys = sheets_data[0]
+    # シートデータ取り出す
+    session["sheets_data"] = sheets_data
 
     return redirect(
         url_for("results", title=sheets_title, sheets_data=sheets_data, keys=keys)
@@ -90,10 +92,8 @@ def process():
 @app.route("/results")
 def results():
     title = request.args.get("title")
-    sheets_data = request.args.getlist("sheets_data")
     keys = request.args.getlist("keys")
-    session["sheets_data"] = sheets_data
-
+    
     return render_template(
         "results.html", title=title, keys=keys
     )
@@ -101,11 +101,8 @@ def results():
 
 @app.route("/create_document", methods=["POST"])
 def write_to_google_doc():
-    # POSTリクエストからJSONデータを取得
-    request_data = request.get_json()
-
-    # タイトルと選択されたキーのリストを取得
-    sheets_data = request_data.get("requestData", {}).get("sheets_data")
+    sheets_data = session.get("sheets_data", "URLが見つかりません")
+    
     # 空のリストを用意
     converted_data = []
     # 各要素を処理してPythonのリストに変換
@@ -116,7 +113,9 @@ def write_to_google_doc():
         item_list = json.loads(json_str)
         # リストを追加
         converted_data.append(item_list)
-
+        
+    # POSTリクエストからJSONデータを取得
+    request_data = request.get_json()
     title = request_data.get("requestData", {}).get("title")
     selected_keys = request_data.get("requestData", {}).get("selectedKeys")
 

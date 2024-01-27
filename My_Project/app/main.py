@@ -27,8 +27,9 @@ credentials = service_account.Credentials.from_service_account_info(
 )
 
 app = Flask(__name__, static_folder=".", static_url_path="")
+app.debug = True
 app.secret_key = "hogehoge"
-
+toolbar = DebugToolbarExtension(app)
 
 def extract_id(url):
     pattern = r"/spreadsheets/d/([a-zA-Z0-9-_]+)"

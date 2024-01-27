@@ -6,24 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/style.css">
     <title>アンケート自動まとめ</title>
-    <style>
-        #loading {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            background-color: rgba(255, 255, 255, 0.8);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 99; /* 他の要素よりも前面に表示 */
-        }
-    </style>
 </head>
 
 <body>
-    <div id="loading" style="display: none;">Loading...</div>
     <form id="Form1" action="/process" method="post">
         <h1>アンケート自動まとめ</h1>
         <div>
@@ -32,7 +17,6 @@
             <button id="get_info" onclick="submitForm()">情報取得</button>
             <script>
                 function submitForm() {
-                    document.getElementById("loading").style.display = "block";
                     var form = document.getElementById("Form1");
                     form.submit();
                 }

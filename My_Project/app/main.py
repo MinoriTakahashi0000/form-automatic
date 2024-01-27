@@ -98,8 +98,8 @@ def process():
 
 @app.route("/results")
 def results():
-    sheets_title = session.get("title", "URLが見つかりません")
-    keys = session.get("keys", "URLが見つかりません")
+    sheets_title = session.get("sheets_title", "titleが見つかりません")
+    keys = session.get("keys", "keyが見つかりません")
     
     return render_template(
         "results.html", sheets_title=sheets_title, keys=keys

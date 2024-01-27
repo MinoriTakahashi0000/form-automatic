@@ -76,7 +76,7 @@ def index():
     return render_template("index.html")
 
 
-@app.route("/process", methods=["POST"])
+@app.route("/process")
 def process():
     url = request.form["url_input"]
     id = extract_id(url)
@@ -105,7 +105,7 @@ def results():
     )
 
 
-@app.route("/create_document", methods=["POST"])
+@app.route("/create_document")
 def write_to_google_doc():
     converted_data = session.get("sheets_data", "URLが見つかりません")
     
@@ -326,7 +326,7 @@ def write_to_google_doc():
         print(err)
 
 
-@app.route("/end", methods=["GET"])
+@app.route("/end")
 def end():
     document_url = session.get("document_url", "URLが見つかりません")
     document_title = session.get("document_title", "URLが見つかりません")

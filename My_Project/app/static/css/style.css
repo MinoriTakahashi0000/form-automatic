@@ -1,4 +1,8 @@
 #loading {
+    position: fixed; /* ページ全体に対して中央に配置 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     background: white;
     padding: 20px;
     border-radius: 5px;

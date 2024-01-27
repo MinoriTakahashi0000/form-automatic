@@ -6,9 +6,33 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/css/style.css">
     <title>アンケート自動まとめ</title>
+    <style>
+        /* ローディング画面のスタイル */
+        #loading {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 99; /* 他の要素よりも前面に表示 */
+        }
+    </style>
 </head>
 
 <body>
+    <div id="loading">
+    <p>Loading...</p>
+    </div>
+    <script>
+    // ページが完全に読み込まれたらローディング画面を非表示にする
+    window.addEventListener('load', function() {
+        document.getElementById('loading').style.display = 'none';
+    });
+    </script>
     <form id="Form1" action="/process" method="post">
         <h1>アンケート自動まとめ</h1>
         <div>

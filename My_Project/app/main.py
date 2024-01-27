@@ -105,17 +105,6 @@ def results():
 def write_to_google_doc():
     converted_data = session.get("sheets_data", "URLが見つかりません")
     
-    # # 空のリストを用意
-    # converted_data = []
-    # # 各要素を処理してPythonのリストに変換
-    # for item in sheets_data:
-    #     # シングルクォートをダブルクォートに変換し、JSON形式の文字列にする
-    #     json_str = item.replace("'", '"')
-    #     # JSON形式の文字列をPythonのリストに変換
-    #     item_list = json.loads(json_str)
-    #     # リストを追加
-    #     converted_data.append(item_list)
-        
     # POSTリクエストからJSONデータを取得
     request_data = request.get_json()
     title = request_data.get("requestData", {}).get("title")

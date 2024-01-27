@@ -9,6 +9,9 @@
 </head>
 
 <body>
+    <div id="loading">
+    <div id="loadingMessage">アンケートまとめを作成中...</div>
+    </div>
     <script>
         sheets_data = {{ sheets_data | tojson }};
     </script>
@@ -48,6 +51,8 @@
     <button id="create" onclick="create()">作成</button>
     <script>
         function create() {
+            // ローディング画面を表示
+            document.getElementById('loading').style.display = 'block';
             var titleValue = document.getElementById('title_input').value;
 
             // チェックボックスの状態を取得

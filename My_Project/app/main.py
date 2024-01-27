@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, url_for, session
+from flask_debugtoolbar import DebugToolbarExtension
 import re
 import os
 from urllib.parse import unquote_plus

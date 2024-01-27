@@ -20,6 +20,8 @@
             <button id="get_info" type="submit" onclick="submitForm()">情報取得</button>
             <script>
                 function submitForm() {
+                    // ローディング画面を表示
+                    document.getElementById('loading').style.display = 'block';
                     var form = document.getElementById("Form1");
                     form.submit();
                 }

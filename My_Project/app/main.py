@@ -92,9 +92,10 @@ def results():
     title = request.args.get("title")
     sheets_data = request.args.getlist("sheets_data")
     keys = request.args.getlist("keys")
+    session["sheets_data"] = sheets_data
 
     return render_template(
-        "results.html", title=title, sheets_data=sheets_data, keys=keys
+        "results.html", title=title, keys=keys
     )
 
 
